@@ -4,9 +4,7 @@ import { usePathname, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import Script from 'next/script'
 
-// !! IMPORTANT !!
-// REPLACE 'G-XXXXXXXXXX' WITH YOUR ACTUAL GA4 MEASUREMENT ID
-const GA_TRACKING_ID = 'G-YSC2W4YQSR'
+const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_TRACKING_ID!;
 
 const pageview = (url: string) => {
   if (typeof window.gtag !== 'undefined') {
@@ -21,7 +19,7 @@ export default function Analytics() {
   const searchParams = useSearchParams()
 
   useEffect(() => {
-    const url = pathname + searchParams.toString()
+    const url = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '')
     pageview(url)
   }, [pathname, searchParams])
 
